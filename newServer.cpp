@@ -38,8 +38,7 @@ public:
             cin >> portNumber;
         }
     }
-
-    int createServer()
+    int createSocket()
     {
         address.sin_family = AF_INET;
         address.sin_port = htons(portNumber);
@@ -72,8 +71,35 @@ public:
         }
         cout << "Successful\n";
 
-        cout << "4. Creation\tSuccessful\n";
+        cout << "4. Completion\tSuccessful\n";
         return (1);
+    }
+    int createDataBase()
+    {
+
+        return (1);
+    }
+    int createServer()
+    {
+        // create server socket
+        int counter = 0, status;
+        cout << "Initialising Server Socket creation..\n";
+        do
+        {
+            if (counter != 0)
+                cout << "Re-Enter server details, failed to make for that input\n\n";
+            counter++;
+            takeInput();
+            status = createServer();
+        } while (status != 1 && counter < 5);
+
+        counter = 0;
+        do
+        {
+            counter++;
+            status = createDataBase();
+        } while (status != 1 && counter < 5);
+        // create server database
     }
 
 } server;
@@ -111,18 +137,8 @@ int serchClient(string name);
 
 int main()
 {
-    server.takeInput();
-    int counter = 0, check;
-    do
-    {
-        counter++;
-        check = server.createServer();
-    } while (counter != 5 && check == -1);
-    if (check == -1)
-    {
-        cout << "Failed to create the server, retry later\n";
-        return (0);
-    }
+    server.createServer();
+
     cout << "\n5. Threading\n   accepter()\t";
 }
 
