@@ -4,12 +4,14 @@
 #include <vector>
 #include <thread>
 #include <pthread.h>
+#include <sqlite3.h>
 
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <sys/types.h>
+#pragma comment(lib, "sqlite3")
 
 using namespace std;
 
@@ -18,6 +20,7 @@ class Server
 public:
     string IPAddress;
     int portNumber;
+    sqlite3 *DataBase;
 
     int socketFD;
     struct sockaddr_in address;
@@ -76,7 +79,13 @@ public:
     }
     int createDataBase()
     {
-
+        cout << "1. Creating :\t";
+        int status = sqlite3_open(":memory:", &DataBase);
+        if (status != SQLITE_OK)
+        {
+            cout << "Failed\n";
+            return (-1);
+        }
         return (1);
     }
     int createServer()
