@@ -1,0 +1,9 @@
+the new sever should be able to accept clients. store them once they are connected to a locally maintained SQL DataBase.
+step one:
+create the server.
+once the server is running, start accepting new clients in a new thread.
+    move the accepted clients in a vector and maintain until finalized.
+        to finalize the client, ask name. compare uniqueness, if unique finalize.
+    once finalized, move the client to a DataBase.
+meanwhile, for all the finalized clients, run a bidirectional socket for communication between each others
+the clients can also execute commands to the server based on admission level.
