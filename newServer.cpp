@@ -78,14 +78,21 @@ public:
     }
     int createDataBase()
     {
+        int status;
+        char *err_msg = 0;
+
         cout << "1. Creation :\t";
-        int status = sqlite3_open(":memory:", &DataBase);
+        status = sqlite3_open(":memory:", &DataBase);
         if (status != SQLITE_OK)
         {
             cout << "Failed\n";
             return (-1);
         }
+        cout << "Successful\n";
+
         cout << "2. Adding Tables :\t";
+        const char *SQLCommand = "CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY,user_name TEXT NOT NULL, socket_fd INT NOT NULL, address TEXT NOT NULL, address_length INT NOT NULL, connection_time DATETIME DEFAULT CURRENT_TIMESTAMP, is_admin BOOLEAN DEFAULT 0,is_bot BOOLEAN DEFAULT 0, recv_thread_value TEXT);";
+        status = sqlite3_exec(DataBase, SQLCommand, 0, 0, &err_msg);
         cout << "3. Confirming Integritiy :\t";
         return (1);
     }
@@ -93,14 +100,14 @@ public:
     {
         // create server socket
         int counter = 0, status;
-        
+
         do
         {
             if (counter != 0)
                 cout << "Re-Enter server details, failed to make for that input\n";
             counter++;
             takeInput();
-            cout << "\nInitialising Server Socket creation..\n";
+            cout << "\nInitialising Server Socket..\n";
             status = createSocket();
         } while (status != 1 && counter < 5);
 
@@ -108,7 +115,7 @@ public:
         do
         {
             counter++;
-            cout << "\nInitializing DataBase creation..\n";
+            cout << "\nInitializing DataBase..\n";
             status = createDataBase();
         } while (status != 1 && counter < 5);
         // create server database
@@ -124,7 +131,7 @@ public:
 
     int is_admin;
     int is_bot;
- 
+
     int socketFD;
     struct sockaddr address;
     socklen_t length;
