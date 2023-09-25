@@ -7,3 +7,6 @@ once the server is running, start accepting new clients in a new thread.
     once finalized, move the client to a DataBase.
 meanwhile, for all the finalized clients, run a bidirectional socket for communication between each others
 the clients can also execute commands to the server based on admission level.
+
+compilaiton line 
+cd "/mnt/c/Coding/Code/LINUX-serverClient/" && g++ newServer.cpp -o newServer -lsqlite3 && "/mnt/c/Coding/Code/LINUX-serverClient/"newServer

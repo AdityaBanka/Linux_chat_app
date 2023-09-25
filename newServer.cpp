@@ -11,7 +11,6 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <sys/types.h>
-#pragma comment(lib, "sqlite3")
 
 using namespace std;
 
@@ -79,33 +78,37 @@ public:
     }
     int createDataBase()
     {
-        cout << "1. Creating :\t";
+        cout << "1. Creation :\t";
         int status = sqlite3_open(":memory:", &DataBase);
         if (status != SQLITE_OK)
         {
             cout << "Failed\n";
             return (-1);
         }
+        cout << "2. Adding Tables :\t";
+        cout << "3. Confirming Integritiy :\t";
         return (1);
     }
-    int createServer()
+    void createServer()
     {
         // create server socket
         int counter = 0, status;
-        cout << "Initialising Server Socket creation..\n";
+        
         do
         {
             if (counter != 0)
-                cout << "Re-Enter server details, failed to make for that input\n\n";
+                cout << "Re-Enter server details, failed to make for that input\n";
             counter++;
             takeInput();
-            status = createServer();
+            cout << "\nInitialising Server Socket creation..\n";
+            status = createSocket();
         } while (status != 1 && counter < 5);
 
         counter = 0;
         do
         {
             counter++;
+            cout << "\nInitializing DataBase creation..\n";
             status = createDataBase();
         } while (status != 1 && counter < 5);
         // create server database
